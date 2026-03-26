@@ -142,7 +142,7 @@
 <body>
 
     <header class="welcome-header">
-        <h1>Bienvenue sur ta page de login</h1>
+        <h1>Bienvenue sur la page de login</h1>
         <p>Remplis en toute confidentialité tes infos personnelles pour accéder à ton espace.</p>
     </header>
 
