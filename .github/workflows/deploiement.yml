@@ -1,23 +1,24 @@
-name: Deploy to Server
+name: Déploiement vers Ubuntu
 
 on:
   push:
     branches:
-      - main  # Se déclenche quand tu pousses sur la branche main
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout du code
-        uses: actions/checkout@v4
 
-      - name: Déploiement via SSH (rsync)
-        uses: Burnett01/rsync-deployments@5.2.1
-        with:
-          switches: -avzr --delete
-          path: . # On prend tout le dossier actuel
-          remote_path: /var/www/html # TON DOSSIER SUR LE SERVEUR (à adapter si besoin)
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+    steps:
+    - name: Récupérer le code
+      uses: actions/checkout@v3
+
+    - name: Déployer sur la VM
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          rsync -av --delete ./ /var/www/html/
+          sudo mysql -u root app < /var/www/html/base.sql
