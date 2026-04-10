@@ -42,7 +42,7 @@ $profil = $stmt->fetch() ?: [
             font-family: 'Poppins', sans-serif; 
             background: var(--bg);
             background-image: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                              radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%);
+                              radial-gradient(at 50% 0%, rgb(15, 52, 163) 0, transparent 50%);
             display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; margin: 0; color: var(--text);
             transition: background 0.5s ease;
@@ -117,9 +117,9 @@ $profil = $stmt->fetch() ?: [
         <div class="info-item"><i class="fas fa-venus-mars"></i> <span><?= htmlspecialchars($profil['sexe']) ?></span></div>
     </div>
 
-    <a href="complet.php" class="btn-edit">
-        <i class="fas fa-magic"></i> Personnaliser
-    </a>
+    <a href="complet.php" class="btn-edit"><i class="fas fa-magic"></i> Personnaliser </a>
+        
+   
 
     <a href="index.php " style="color: #ef4444; text-decoration: none; font-size: 13px; display: block; margin-top: 20px; font-weight: 600;">
         <i class="fas fa-power-off"></i> Déconnexion

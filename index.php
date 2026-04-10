@@ -9,9 +9,10 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+
+        font-family:Poppins; 
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #002fff 0%, #002aff 100%);
             padding: 40px 20px;
             display: flex;
             flex-direction: column;
