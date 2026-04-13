@@ -133,6 +133,7 @@
 
         .footer-link:hover { color: #764ba2; }
 
+
         /* Responsive Mobile */
         @media (max-width: 480px) {
             .welcome-header h1 { font-size: 1.8rem; }
@@ -143,7 +144,7 @@
 <body>
 
     <header class="welcome-header">
-        <h1>BIENVENUE </h1>
+        <h1>HELLO</h1>
         <p>Remplis en toute confidentialité tes infos personnelles pour accéder à ton espace.</p>
     </header>
 
