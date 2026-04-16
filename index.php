@@ -12,7 +12,7 @@
 
         font-family:Poppins; 
             min-height: 100vh;
-            background: linear-gradient(135deg, #002fff 0%, #002aff 100%);
+            background: linear-gradient(135deg, hsl(229, 100%, 64%) 0%, #151b38 100%);
             padding: 40px 20px;
             display: flex;
             flex-direction: column;
@@ -107,11 +107,11 @@
         }
 
         .btn-reg { 
-            background: #4a5568; 
+            background: #7f8ba0; 
         }
 
         .btn-log { 
-            background: #2ecc71; 
+            background: #0000ff; 
         }
 
         button:hover { 
