@@ -144,7 +144,8 @@
 <body>
 
     <header class="welcome-header">
-        <h1>HELLO</h1>
+        <h1>BIENVENU SUR TA PAGE
+        </h1>
         <p>Remplis en toute confidentialité tes infos personnelles pour accéder à ton espace.</p>
     </header>
 
