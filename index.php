@@ -228,7 +228,7 @@
 <div id="urgences" class="page-content container my-5 text-center">
     <div class="alert alert-danger p-5 shadow-lg rounded-4 border-0">
         <i class="fas fa-phone-alt fa-4x mb-3"></i>
-        <h2 class="fw-bold text-uppercase">Opposition Carte Bancaire</h2>
+        <h2 class="fw-bold text-uppercase">Opposition et Carte Bancaire</h2>
         <p class="display-5 fw-bold mb-0">+237 233 43 00 00</p>
         <p class="mt-3 opacity-75">Signalez immédiatement la perte ou le vol de vos moyens de paiement.</p>
     </div>
