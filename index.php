@@ -74,7 +74,7 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#" onclick="showPage('home')">
             <img src="Logo_SCB_Cameroun.png" alt="Logo">
-            <span class="ms-2 fw-bold d-none d-sm-inline">ASSISTANT APP</span>
+            <span class="ms-2 fw-bold d-none d-sm-inline">ASSISTANT</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#scbNav">
             <span class="navbar-toggler-icon"></span>
