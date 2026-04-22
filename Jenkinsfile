@@ -2,68 +2,40 @@ pipeline {
     agent any
 
     environment {
-        // Définition de variables pour éviter les répétitions
-        SCAN_RESULTS = 'results'
-    }
-
-    options {
-        // Conserve les logs, ajoute des horodatages et évite les builds simultanés
-        timestamps()
-        disableConcurrentBuilds()
-        timeout(time: 1, unit: 'HOURS')
+        PC_IP = "192.168.8.104" 
+        USER_WIN = "SMART"
+        // Le dossier racine où seront rangés tous tes backups sur ton Bureau
+        BASE_DIR = "C:/Users/SMART/Desktop/MES_BACKUPS"
     }
 
     stages {
-        stage('Cleanup') {
+        stage('1. Récupération du Code') {
             steps {
-                cleanWs() // Nettoie le dossier de travail avant de commencer
-            }
-        }
-
-        stage('Checkout') {
-            steps {
-                // Utilisation de la méthode complète pour plus de contrôle
                 checkout scm
+                echo "Code récupéré depuis GitHub avec succès."
             }
         }
 
-        stage('Install Dependencies') {
+        stage('2. Backup Automatique') {
             steps {
-                echo 'Installation des dépendances...'
-                // Exemple pour un projet Node.js. À adapter selon votre langage (mvn, pip, etc.)
-                sh 'npm install'
-            }
-        }
+                // On récupère tes accès SMART enregistrés dans Jenkins
+                withCredentials([usernamePassword(credentialsId: 'mon-pc-win10', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    script {
+                        // Création du nom de dossier : backup_2026-04-20_17h15
+                        def horodatage = new Date().format("yyyy-MM-dd_HH'h'mm")
+                        def dossierBackup = "backup_${horodatage}"
+                        
+                        echo "Tentative de connexion à ton PC physique..."
 
-        stage('Unit Tests') {
-            steps {
-                echo 'Exécution des tests unitaires...'
-                sh 'npm test' 
-            }
-            post {
-                always {
-                    // Archive les rapports de tests même si un test échoue
-                    junit '**/test-reports/*.xml' 
-                }
-            }
-        }
+                        // Commande 1 : Créer le dossier MES_BACKUPS et le sous-dossier daté
+                        // On utilise 'powershell' à distance pour être sûr que Windows comprenne bien
+                        sh "sshpass -p '$PASS' ssh -o StrictKeyChecking=no ${USER}@${PC_IP} 'powershell mkdir ${BASE_DIR}/${dossierBackup}'"
 
-        stage('Security Scan') {
-            steps {
-                echo 'Analyse de vulnérabilités...'
-                // Simulation d'un scan de sécurité
-                sh 'npm audit || true' 
-            }
-        }
+                        echo "Dossier créé. Transfert des fichiers en cours..."
 
-        stage('Deploy to SCB') {
-            // On ne déploie que si on est sur la branche 'main'
-            when { branch 'main' }
-            steps {
-                echo 'Déploiement en cours sur le serveur SCB...'
-                // Utilisation de SSH avec des identifiants sécurisés configurés dans Jenkins
-                withCredentials([sshUserPrivateKey(credentialsId: 'scb-server-ssh', keyFileVariable: 'SSH_KEY')]) {
-                    sh 'scp -i $SSH_KEY -r . user@scb-server:/var/www/html'
+                        // Commande 2 : Copier tout le projet de la VM Jenkins vers ton Bureau
+                        sh "sshpass -p '$PASS' scp -r ./* ${USER}@${PC_IP}:${BASE_DIR}/${dossierBackup}/"
+                    }
                 }
             }
         }
@@ -71,11 +43,12 @@ pipeline {
 
     post {
         success {
-            echo '✅ Pipeline réussie !'
+            echo "-------------------------------------------------------"
+            echo "✅ SUCCÈS : Ton backup est disponible sur ton Bureau !"
+            echo "-------------------------------------------------------"
         }
         failure {
-            echo '❌ Le build a échoué. Vérifiez les logs.'
-            // Ici, vous pourriez ajouter un envoi d'email ou Slack
+            echo "❌ ÉCHEC : Vérifie les logs de la console Jenkins."
         }
     }
 }
