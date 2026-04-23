@@ -1,54 +1,44 @@
 pipeline {
-    agent any
+    agent { label 'agent' } // Remplace par le nom de ton agent Windows
 
     environment {
-        PC_IP = "192.168.8.104" 
-        USER_WIN = "SMART"
-        // Le dossier racine où seront rangés tous tes backups sur ton Bureau
-        BASE_DIR = "C:/Users/SMART/Desktop/MES_BACKUPS"
+        PROD_DIR = 'C:\\xampp\\htdocs\\APP'
+        BACKUP_DIR = 'C:\\jenkins\\backups_app'
     }
 
     stages {
-        stage('1. Récupération du Code') {
+        stage('Backup and Deploy') {
             steps {
-                checkout scm
-                echo "Code récupéré depuis GitHub avec succès."
-            }
-        }
+                script {
+                    // 1. Identifier les fichiers modifiés dans ce commit
+                    def changedFiles = sh(script: 'git diff --name-only HEAD~1 HEAD', returnStdout: true).trim().split('\n')
 
-        stage('2. Backup Automatique') {
-            steps {
-                // On récupère tes accès SMART enregistrés dans Jenkins
-                withCredentials([usernamePassword(credentialsId: 'mon-pc-win10', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    script {
-                        // Création du nom de dossier : backup_2026-04-20_17h15
-                        def horodatage = new Date().format("yyyy-MM-dd_HH'h'mm")
-                        def dossierBackup = "backup_${horodatage}"
+                    for (file in changedFiles) {
+                        if (file.trim() == "") continue
+
+                        // Chemins complets
+                        def sourceFile = "${WORKSPACE}\\${file}"
+                        def targetFile = "${PROD_DIR}\\${file}"
                         
-                        echo "Tentative de connexion à ton PC physique..."
+                        // Préparer le nom de sauvegarde (date_heure)
+                        def timestamp = new Date().format("yyyyMMdd_HHmmss")
+                        def fileBaseName = file.split('\\.')[0]
+                        def extension = file.contains('.') ? file.tokenize('.').last() : ""
+                        def backupName = "${fileBaseName}_${timestamp}.${extension}"
 
-                        // Commande 1 : Créer le dossier MES_BACKUPS et le sous-dossier daté
-                        // On utilise 'powershell' à distance pour être sûr que Windows comprenne bien
-                        sh "sshpass -p '$PASS' ssh -o StrictKeyChecking=no ${USER}@${PC_IP} 'powershell mkdir ${BASE_DIR}/${dossierBackup}'"
+                        // 2. SAUVEGARDE : Si le fichier existe en prod, on le copie dans backup
+                        if (fileExists(targetFile)) {
+                            echo "Sauvegarde de ${file} vers ${BACKUP_DIR}"
+                            bat "copy \"${targetFile}\" \"${BACKUP_DIR}\\${backupName}\""
+                        }
 
-                        echo "Dossier créé. Transfert des fichiers en cours..."
-
-                        // Commande 2 : Copier tout le projet de la VM Jenkins vers ton Bureau
-                        sh "sshpass -p '$PASS' scp -r ./* ${USER}@${PC_IP}:${BASE_DIR}/${dossierBackup}/"
+                        // 3. DEPLOIEMENT : On remplace le fichier en prod
+                        echo "Mise à jour de ${file} dans la Prod"
+                        // On s'assure que le sous-dossier existe si c'est un projet structuré
+                        bat "xcopy \"${sourceFile}\" \"${PROD_DIR}\" /Y /S"
                     }
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo "-------------------------------------------------------"
-            echo "✅ SUCCÈS : Ton backup est disponible sur ton Bureau !"
-            echo "-------------------------------------------------------"
-        }
-        failure {
-            echo "❌ ÉCHEC : Vérifie les logs de la console Jenkins."
         }
     }
 }
