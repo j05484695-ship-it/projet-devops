@@ -81,7 +81,7 @@
         </button>
         <div class="collapse navbar-collapse" id="scbNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="#" onclick="showPage('home')"><i class="fas fa-home me-1"></i> bienvenue</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" onclick="showPage('home')"><i class="fas fa-home me-1"></i>EJP</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')"><i class="fas fa-user-circle me-1"></i> Espace Client</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('accounts')"><i class="fas fa-wallet me-1"></i> Comptes</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('chat')"><i class="fas fa-headset me-1"></i> Assistance</a></li>
