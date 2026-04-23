@@ -85,7 +85,7 @@
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('login')"><i class="fas fa-user-circle me-1"></i> Espace Client</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('accounts')"><i class="fas fa-wallet me-1"></i> Comptes</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('chat')"><i class="fas fa-headset me-1"></i> Assistance</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('agences')"><i class="fas fa-map-marker-alt me-1"></i> Agences</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('agences')"><i class="fas fa-map-marker-alt me-1"></i> secursale</a></li>
                 <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('urgences')"><i class="fas fa-exclamation-triangle me-1"></i> Urgences</a></li>
             </ul>
         </div>
