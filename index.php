@@ -95,7 +95,7 @@
 <div id="home" class="page-content active-page">
     <section class="hero-section">
         <div class="container">
-            <h1 class="fw-bold display-5">Partenaire de votre avenir</h1>
+            <h1 class="fw-bold display-5">Partenaire</h1>
             <p class="lead">Simplifiez votre quotidien avec les services digitaux de la SCB Cameroun.</p>
             <button class="btn btn-warning btn-lg rounded-pill fw-bold mt-3 px-5 shadow" onclick="showPage('login')">Mon Espace <i class="fas fa-chevron-right ms-2"></i></button>
         </div>
